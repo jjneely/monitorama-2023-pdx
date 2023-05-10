@@ -13,7 +13,6 @@ jobs:
           root_file: main.tex
           latexmk_use_xelatex: true
 
-      - run: mkdir public
       - run: mv *.pdf public/
 
       - name: Deploy to GitHub Pages
