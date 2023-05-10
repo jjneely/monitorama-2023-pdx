@@ -1,1 +1,7 @@
 mtheme-1.2/
+*.aux
+*.log
+*.out
+*.snm
+*.toc
+*.nav

@@ -1,0 +1,30 @@
+﻿I find the data in Observability fascinating. In every aspect of an SRE I see
+problems to solve with data rather than brute force. In fact, all of us in the
+Observability space are really Data Engineers and Data Scientists in disguise.
+The only way to fully understand our complex systems is through math and
+visualizations. Let's explore the 4 Golden Signals and the math behind why they
+work well and some tricks to bridging Observability and Business Intelligence.
+
+In this talk I'll cover each of the 4 Golden Signals and speak to the data
+engineering tools used for each to give folks a broad platform to discover new
+math and new techniques for solving their own data problems:
+
+1) Traffic: Counters and Calculus -- The Physics Behind why Counters Work.
+
+2) Errors: Counting vs Sampling and the Nyquest-Shannon Theory. Your CPU
+metrics are wrong and I can prove it.
+
+3) Latency: Timers and Distributions -- Why averages are horrible and
+Anscombe's Quartet. Understanding Gamma Distributions.
+
+4) Saturation: Percentiles and Pipelines -- Visualizing percentiles of data,
+why we cannot combine percentiles, and the magic of histograms.
+
+Finally, all of us in Observability have been asked at some point to
+participate in managing the data behind Business Intelligence. Data about the
+product likely comes from the product itself directly through its telemetry.
+Often the requirements are high cardinality and high in volume making it
+difficult to store raw data for months on end to produce accurate BI. We'll
+work around the limits of percentiles and show some tricks for extracting
+events, storing those as summary data, and producing monthly percentile based
+reports with T-Digests.
