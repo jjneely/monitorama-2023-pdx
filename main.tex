@@ -7,6 +7,13 @@
 
 \date{\today}
 
+\newcommand{\hcancel}[1]{%
+    \tikz[baseline=(tocancel.base)]{%
+        \node[inner sep=0pt,outer sep=0pt] (tocancel) {#1};
+        \draw[lightblue, very thick] (tocancel.south west) -- (tocancel.north east);
+    }%
+}%
+
 \begin{document}
 
 %% Introduction, Title
@@ -21,6 +28,29 @@
             \includegraphics[width=10cm]{img/lightning-2019.png}
         };
     \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+    \frametitle{As a DevOps Observability Architect...}
+
+    \emph{What do I monitor?}
+
+    Google SRE's \hcancel{Four} Five Golden Signals
+    \begin{description}
+        \item[Health] Pods are Running and Healthy
+        \item[Traffic] Counter of Units of Work
+        \item[Errors] Counter of Units of Work with Exceptions
+        \item[Latency] Timer of the distribution of latencies for each Unit of Work
+        \item[Saturation] When Pods be scaled up or down
+    \end{description}
+
+    Remember: \alert{There are FIVE lights!}
+\end{frame}
+
+\begin{frame}
+    \frametitle{As a DevOps Observability Architect...}
+
+    | \emph{Okay, but how do I set alerts for my super special customer?}
 \end{frame}
 
 \frame[standout]{Traffic}
