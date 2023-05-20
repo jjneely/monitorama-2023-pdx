@@ -81,6 +81,26 @@
 
 \frame[standout]{Traffic}
 
+\begin{frame}
+    \frametitle{Why Counters Work}
+
+    \begin{quote}
+         Systems based in cumulative monotonic sums are naturally simpler, in
+         terms of the cost of adding reliability. When collection fails
+         intermittently, gaps in the data are naturally averaged from
+         cumulative measurements.  -- OpenTelemetry Data Model
+    \end{quote}
+
+    Most Accurate: Incremented in discrete whole numbers.  Never misses an
+    event.
+
+    Synchronization Primitive: Allows for multiple observers.
+
+    Low Overhead: Easy implementation.
+
+    %% https://www.researchgate.net/publication/3849082_Monotonic_counters_A_new_mechanism_for_thread_synchronization
+\end{frame}
+
 %% Count Units of Work
 %% Why Counting monotonoically matters like a network device
 
