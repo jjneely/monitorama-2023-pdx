@@ -22,7 +22,7 @@
 %% In the Before Time Lightning Talk
 %% Consultant work
 \begin{frame}
-    \frametitle{Monitorama PDX 2019}
+    \frametitle{Monitorama PDX 2019: How to know if something is ``up''}
     \begin{tikzpicture}[remember picture,overlay]
         \node[at=(current page.center)] {
             \includegraphics[width=10cm]{img/lightning-2019.png}
@@ -50,15 +50,57 @@
 \begin{frame}
     \frametitle{As a DevOps Observability Architect...}
 
-    | \emph{Okay, but how do I set alerts for my super special customer?}
+    The \hcancel{Four} Five Golden Signals ensure awareness of incidents
+    before the customer base.
+
+    \pause
+    \begin{quote}
+        \emph{We need to set alerts for these super special customers.}
+    \end{quote}
+
+    Well, if we set our Histograms correctly and record maximum values we will
+    be able to tell when...
+
+    \pause
+    \begin{quote}
+        \emph{When a customer calls we need to be able to verify the error
+            they encountered.  We'll need a high cardinally solution.}
+    \end{quote}
+
+    Umm...those aren't metrics.  How heavily are you sampling your traces?
+
+    \pause
+    \begin{quote}
+        \emph{Jack, we're an Enterprise!}
+    \end{quote}
+\end{frame}
+
+\begin{frame}
+    starship goes here
 \end{frame}
 
 \frame[standout]{Traffic}
 
+%% Count Units of Work
+%% Why Counting monotonoically matters like a network device
+
 \frame[standout]{Errors}
+
+%% Count Units of Work that fail or create an exception
+%% How you CPU metrics are wrong
 
 \frame[standout]{Latency}
 
+%% Latency: Timers and Distributions -- Why averages are horrible and
+%% Anscombe's Quartet. Understanding Gamma Distributions.
+
 \frame[standout]{Saturation}
+
+%% Saturation: Percentiles and Pipelines -- Visualizing percentiles of data,
+%% why we cannot combine percentiles, and the magic of histograms.
+
+\frame[standout]{Customers}
+
+%% T-Digests
 
 \end{document}
