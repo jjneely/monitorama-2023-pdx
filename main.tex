@@ -81,6 +81,9 @@
 
 \frame[standout]{Traffic}
 
+%% Count Units of Work
+%% Why Counting monotonoically matters like a network device
+
 \begin{frame}
     \frametitle{Why Counters Work}
 
@@ -96,13 +99,23 @@
 
     Synchronization Primitive: Allows for multiple observers.
 
-    Low Overhead: Easy implementation.
+    Low Overhead: Easy implementation.  No copying or recalling previous
+    values.
+
+    Fundamental: \textbf{Position!}
 
     %% https://www.researchgate.net/publication/3849082_Monotonic_counters_A_new_mechanism_for_thread_synchronization
 \end{frame}
 
-%% Count Units of Work
-%% Why Counting monotonoically matters like a network device
+\begin{frame}
+    \frametitle{Remember Physics}
+    %% position, velocity, acceleration
+\end{frame}
+
+\begin{frame}
+    \frametitle{Counting Caveats: Riemann Sums}
+    %% Recording Rules
+\end{frame}
 
 \frame[standout]{Errors}
 
