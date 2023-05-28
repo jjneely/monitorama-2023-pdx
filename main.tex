@@ -107,13 +107,21 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Remember Physics}
-
-    Position
-
-    Velocity
-
-    Acceleration
+    \frametitle{Remembering Physics}
+    \begin{columns}
+        \begin{column}{0.33\textwidth}
+            Position
+            \resizebox{\columnwidth}{!}{\input{position.tex}}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            Velocity
+            \resizebox{\columnwidth}{!}{\input{velocity.tex}}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            Acceleration
+            \resizebox{\columnwidth}{!}{\input{acceleration.tex}}
+        \end{column}
+    \end{columns}
     \note[item]{Spike detection}
 \end{frame}
 
@@ -133,16 +141,23 @@ rules:
     sum by (service, namespace, status) (
       rate(http_server_requests_seconds_count{}[5m])
     )
-
-- record: labels:http_server_request_5xx:ratio5m
-  expr: >
-    sum without (status) (
-      labels:http_server_requests:rate5m{status=~"5.."}
-    ) /
-    sum without (status) (
-      labels:http_server_requests:rate5m{}
-    )
 \end{lstlisting}
+
+Integrate and Build Ratio:
+            \begin{lstlisting}
+1 - (
+  sum_over_time(
+    sum without (status) (
+      labels:http_server_requests:rate5m{
+        status=~"5..", service="..."})[7d:5m]
+  ) * 300 /
+  sum_over_time(
+    sum without (status) (
+      labels:http_server_requests:rate5m{
+        service="..."})[7d:5m]
+  ) * 300
+)
+            \end{lstlisting}
         \end{column}
     \end{columns}
 \end{frame}
@@ -151,6 +166,23 @@ rules:
 
 %% Count Units of Work that fail or create an exception
 %% How you CPU metrics are wrong
+
+\begin{frame}[fragile]
+    \frametitle{Measuring CPU Usage Over Time}
+
+    How do you measure CPU usage of a process?
+    \begin{enumerate}[label=\alph*.]
+        \item Jiffies
+        \item Percentages
+        \item Seconds a Process is in the Running State
+        \item All of the above
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Nyquist-Shannon Sampling Theorem}
+
+\end{frame}
 
 \frame[standout]{Latency}
 
