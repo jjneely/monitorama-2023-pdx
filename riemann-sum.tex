@@ -1,0 +1,28 @@
+\pgfplotsset{
+    integral segments/.code={\pgfmathsetmacro\integralsegments{#1}},
+    integral segments=10,
+    integral/.style args={#1:#2}{
+        ybar interval,
+        domain=#1+((#2-#1)/\integralsegments)/2:#2+((#2-#1)/\integralsegments)/2,
+        samples=\integralsegments+1,
+        x filter/.code=\pgfmathparse{\pgfmathresult-((#2-#1)/\integralsegments)/2}
+    }
+}
+
+%% https://math.dartmouth.edu/opencalc2/cole/lecture8.pdf
+%%\begin{tikzpicture}[/pgf/declare function={f=0.1*x^2+1;}]
+\begin{tikzpicture}[/pgf/declare function={f=3*x^3-6*x^2+2*x-1;}]
+\begin{axis}[
+    domain=0:10,
+    samples=100,
+    axis lines=middle,
+    xticklabel=$t_{\pgfmathprintnumber{\tick}}$
+]
+\addplot [
+    red,
+    fill=red!50,
+    integral=0:10
+] {f};
+\addplot [thick] {f};
+\end{axis}
+\end{tikzpicture}

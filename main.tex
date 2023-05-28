@@ -24,9 +24,9 @@
 \begin{frame}
     \frametitle{Monitorama PDX 2019: How to know if something is ``up''}
     \begin{tikzpicture}[remember picture,overlay]
-        \node[at=(current page.center)] {
-            \includegraphics[width=10cm]{img/lightning-2019.png}
-        };
+        %%\node[at=(current page.center)] {
+        %%    \includegraphics[width=10cm]{img/lightning-2019.png}
+        %%};
     \end{tikzpicture}
 \end{frame}
 
@@ -50,8 +50,7 @@
 \begin{frame}
     \frametitle{As a DevOps Observability Architect...}
 
-    The \hcancel{Four} Five Golden Signals ensure awareness of incidents
-    before the customer base.
+    The \hcancel{Four} Five Golden Signals is knowing before the customers do.
 
     \pause
     \begin{quote}
@@ -109,12 +108,43 @@
 
 \begin{frame}
     \frametitle{Remember Physics}
-    %% position, velocity, acceleration
+
+    Position
+
+    Velocity
+
+    Acceleration
+    \note[item]{Spike detection}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
     \frametitle{Counting Caveats: Riemann Sums}
-    %% Recording Rules
+    \note[item]{How to aggregate Counters}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \resizebox{\columnwidth}{!}{\input{riemann-sum.tex}}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+\begin{lstlisting}
+interval: 5m
+rules:
+- record: labels:http_server_requests:rate5m
+  expr: >
+    sum by (service, namespace, status) (
+      rate(http_server_requests_seconds_count{}[5m])
+    )
+
+- record: labels:http_server_request_5xx:ratio5m
+  expr: >
+    sum without (status) (
+      labels:http_server_requests:rate5m{status=~"5.."}
+    ) /
+    sum without (status) (
+      labels:http_server_requests:rate5m{}
+    )
+\end{lstlisting}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \frame[standout]{Errors}
