@@ -1,0 +1,87 @@
+\subfloat{%
+\begin{tikzpicture}[/pgf/declare function={f=0.5001*x+3.0001;}]
+\begin{axis}[
+    %%width=\textwidth,
+    height=4.5cm,
+    xmax=20,
+    xmin=0,
+    ymin=0,
+    ymax=13,
+    samples=100,
+    domain=0:20,
+    axis lines=middle,
+    yticklabels={,,},
+    xticklabels={,,},
+    mark size=1pt,
+]
+    \addplot [mark=*, only marks] table[x=x1, y=y1] {anscombs.dat};
+    \addplot [red] {f};
+\end{axis}
+\end{tikzpicture}%
+}%
+%
+\subfloat{%
+\begin{tikzpicture}[/pgf/declare function={f=0.5000*x+3.0009;}]
+\begin{axis}[
+    %%width=\textwidth,
+    height=4.5cm,
+    xmax=20,
+    xmin=0,
+    ymin=0,
+    ymax=13,
+    samples=100,
+    domain=0:20,
+    axis lines=middle,
+    yticklabels={,,},
+    xticklabels={,,},
+    mark size=1pt,
+]
+    \addplot [mark=*, only marks] table[x=x2, y=y2] {anscombs.dat};
+    \addplot [red] {f};
+\end{axis}
+\end{tikzpicture}%
+}
+
+\subfloat{%
+\begin{tikzpicture}[/pgf/declare function={f=0.4997*x+3.0025;}]
+\begin{axis}[
+    %%width=\textwidth,
+    height=4.5cm,
+    xmax=20,
+    xmin=0,
+    ymin=0,
+    ymax=13,
+    samples=100,
+    domain=0:20,
+    axis lines=middle,
+    yticklabels={,,},
+    xticklabels={,,},
+    mark size=1pt,
+]
+    \addplot [mark=*, only marks] table[x=x3, y=y3] {anscombs.dat};
+    \addplot [red] {f};
+\end{axis}
+\end{tikzpicture}%
+}%
+%
+\subfloat{%
+    \begin{tikzpicture}[/pgf/declare function={f=0.4999*x+3.0017;}]
+\begin{axis}[
+    %%width=\textwidth,
+    height=4.5cm,
+    xmax=20,
+    xmin=0,
+    ymin=0,
+    ymax=13,
+    samples=100,
+    domain=0:20,
+    axis lines=middle,
+    yticklabels={,,},
+    xticklabels={,,},
+    mark size=1pt,
+]
+    \addplot [mark=*, only marks] table[x=x4, y=y4] {anscombs.dat};
+    \addplot [red] {f};
+\end{axis}
+\end{tikzpicture}%
+}
