@@ -7,3 +7,7 @@ mtheme-1.2/
 *.nav
 *.pdf
 *.vrb
+*.md5
+*.dpth
+*.auxlock
+*.dep
