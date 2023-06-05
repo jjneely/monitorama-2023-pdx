@@ -203,10 +203,28 @@ Integrate and Build Ratio:
 
 \begin{frame}
     \frametitle{Anscomb's Quartet}
-    \begin{figure}[!h]
-        \centering
-        \input{anscombs.tex}
-    \end{figure}
+    \begin{columns}
+        \begin{column}{0.3\textwidth}
+            \begin{center}
+                \begin{tabular}{ c c }
+                    \multicolumn{2}{c}{\textbf{Summary Statistics}} \\
+                    \hline
+                    $N$ & $11$ \\
+                    $\mu\{x_1..x_n\}$ & $9.0$ \\
+                    $\mu\{y_1..y_n\}$ & $7.5$ \\
+                    $\sigma\{x_1..x_n\}$ & $3.16$ \\
+                    $\sigma\{y_1..y_n\}$ & $1.94$ \\
+                    $r^2$ & $0.67$
+                \end{tabular}
+            \end{center}
+        \end{column}
+        \begin{column}{0.7\textwidth}
+            \begin{figure}[!h]
+                \centering
+                \input{anscombs.tex}
+            \end{figure}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 % Show overlay of Standard Distribution on top of real latency data
@@ -238,6 +256,22 @@ Integrate and Build Ratio:
         \item[$e$] The base of Natural Logarithm and is about $2.71828$
         \item[$\pi$] Pi! About $3.14159$
     \end{description}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Latency Key Takeaways}
+
+    Question Averages
+    
+    Use Quantiles to Represent Latency Spread
+    \begin{itemize}
+        \item Median or $q(0.50)$
+        \item $q(0.90)$
+        \item $q(0.95)$
+        \item $q(0.99)$
+        \item $3\sigma$ or $q(0.997)$
+        \item Max or $q(1)$
+    \end{itemize}
 \end{frame}
 
 \frame[standout]{Saturation}
