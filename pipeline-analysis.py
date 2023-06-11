@@ -4,7 +4,7 @@ import numpy as np
 import os
 
 resolution = 300.0 # seconds
-fd = open("pipeline.csv")
+fd = open("pipeline-short.csv")
 data = fd.readlines()
 raw_data = []
 customers = {}
