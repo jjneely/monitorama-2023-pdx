@@ -42,6 +42,8 @@ type CustomerReport struct {
 func loadData(f string) []TTAA {
 	var err error
 	ttaa := []TTAA{}
+	var newCustId int64 = 1
+	idMap := make(map[int64]int64)
 
 	file, err := os.Open(f)
 	if err != nil {
@@ -82,6 +84,15 @@ func loadData(f string) []TTAA {
 			log.Printf("Parse error for cId column: %s", row)
 			continue
 		}
+		// Remap IDs so they don't match any "real" data ever
+		if newId, ok := idMap[t.CId]; !ok {
+			idMap[t.CId] = newCustId
+			t.CId = newCustId
+			newCustId++
+		} else {
+			t.CId = newId
+		}
+
 		t.TimeStamp, err = time.Parse(time.RFC3339Nano, strings.Trim(columns[0], "\""))
 		if err != nil {
 			log.Printf("Parse error for @timestamp column: %s", row)
