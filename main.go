@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"math"
 	"flag"
 	"fmt"
 	"log"
@@ -131,18 +132,30 @@ func buildSummary(data []TTAA, CId int64) (c CustomerSummary) {
 
 // reportCustomerSummaries takes a map of unique Customer IDs each with one
 // CustomerSummary and logs it to screen and writes it to a CSV file.
-func reportCustomerSummaries(cust CustomerReport, filename string) {
+func reportCustomerSummaries(cust CustomerReport, cDigests map[int64]*tdigest.TDigest, filename string) {
 	fd, err := os.Create(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer fd.Close()
-	fd.WriteString("CId,Mean,Median,P99\n")
-	fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f\n", -1, cust.Mean, cust.Median, cust.P99)
+	if len(cust.Customers) != len(cDigests)-1 {
+		log.Fatalf("Number of unique customers mismatch: %d:%d", len(cust.Customers), len(cDigests)-1)
+	}
+
+	fd.WriteString("CId,Mean,Median,P99,TMedian,TP99,Error,Count\n")
+	e := 100.0 * (math.Abs(cust.P99 - cDigests[-1].Quantile(.99))) / cust.P99
+	fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n", 
+		-1, cust.Mean, cust.Median, cust.P99,
+		cDigests[-1].Quantile(0.5), cDigests[-1].Quantile(0.99),
+	  	e, cDigests[-1].Count())
 
 	for _, c := range cust.Customers {
 		//log.Printf("Customer %d has mu == %.2f, p50 == %.2f, p99 == %.2f", c.CId, c.Mean, c.Median, c.P99)
-		fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f\n", c.CId, c.Mean, c.Median, c.P99)
+		e := 100.0 * (math.Abs(c.P99 - cDigests[c.CId].Quantile(.99))) / c.P99
+		fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n", 
+			c.CId, c.Mean, c.Median, c.P99,
+			cDigests[c.CId].Quantile(.5), cDigests[c.CId].Quantile(.99),
+			e, cDigests[c.CId].Count())
 	}
 }
 
@@ -176,8 +189,8 @@ func rollupData(data []TTAA, seconds int64) []CustomerReport {
 		customers.Mean, _ = stats.Mean(filterDurations(data[left:right], -1))
 		customers.Median, _ = stats.Median(filterDurations(data[left:right], -1))
 		customers.P99, _ = stats.Percentile(filterDurations(data[left:right], -1), 99)
-		log.Printf("Summary for %v: Customers == %d, mu == %.2f, Median == %.2f, P99 == %.2f",
-			customers.TimeStamp, len(customers.Customers), customers.Mean, customers.Median, customers.P99)
+		//log.Printf("Summary for %v: Customers == %d, mu == %.2f, Median == %.2f, P99 == %.2f",
+		//	customers.TimeStamp, len(customers.Customers), customers.Mean, customers.Median, customers.P99)
 		timeSeries = append(timeSeries, customers)
 	}
 
@@ -197,7 +210,7 @@ func rollupData(data []TTAA, seconds int64) []CustomerReport {
 	return timeSeries
 }
 
-func buildTDigests(ts []CustomerReport) {
+func buildTDigests(ts []CustomerReport) map[int64]*tdigest.TDigest {
 	var cDigests = make(map[int64]*tdigest.TDigest)
 	var count int
 
@@ -224,6 +237,7 @@ func buildTDigests(ts []CustomerReport) {
 	//log.Printf("T-Digest: All customer Mean  : %.2f", cDigests[-1].TrimmedMean(0, 1))
 	log.Printf("T-Digest Rollup: All customer Median: %.2f", cDigests[-1].Quantile(0.5))
 	log.Printf("T-Digest Rollup: All customer p99   : %.2f", cDigests[-1].Quantile(0.99))
+	return cDigests
 }
 
 func main() {
@@ -240,10 +254,10 @@ func main() {
 	if len(timeSeries10d) != 1 {
 		log.Fatalf("All the raw data should fit into the first report!")
 	}
-	reportCustomerSummaries(timeSeries10d[0], "pipe-raw-data-summary.csv")
 
 	timeSeries5m := rollupData(rawData, *interval) // 5m rollups for each customer found in the [5m] window
-	buildTDigests(timeSeries5m)
+	cDigests := buildTDigests(timeSeries5m)
+	reportCustomerSummaries(timeSeries10d[0], cDigests, "tdigest-results.csv")
 
 	// Compare to a T-Digest over the raw data
 	rawTDigest := tdigest.New()
