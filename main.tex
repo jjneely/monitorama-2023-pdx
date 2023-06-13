@@ -286,33 +286,18 @@ Integrate and Build Ratio:
     Of Your Customers
 \end{frame}
 
-\begin{frame}
-    \frametitle{FOOBAR}
-
-\begin{tikzpicture}[]
-\begin{axis}[
-    width=15cm,
-    height=7.5cm,
-    %%domain=-6:6,
-    xmax=43200,
-    xmin=0,
-    ymax=0.4,
-    xtick={7200, 14400, 21600, 28800, 36000, 43299},
-    xticklabels={2h, 4h, 6h, 8h, 10h, 12h},
-    scaled ticks=false,
-    %samples=500,
-    axis lines=middle,
-    %xticklabel=$t_{\pgfmathprintnumber{\tick}}$,
-    bar width=3pt,
-    ylabel=Density
-]
-\addplot [ybar, color=blue, fill=blue!50] table[x index=0, y index=1]{pipeline-total-hist.dat};
-%\node[circle,fill=blue,scale=0.5,pin=45:{Actual $p997$}] at (axis cs:3.172055554,0.01) {};
-%    \node (A) at (axis cs:5,0.5) {Last Observation at $t_{29}$};
-%    \draw[->] (A) to (axis cs:8,0.5);
-\end{axis}
-\end{tikzpicture}
-\end{frame}
 %% T-Digests
+
+\begin{frame}
+    \frametitle{Mission Impossible}
+
+    \textbf{Goal:} Per Customer Median and Percentiles
+
+    \textbf{Problem:} High Volume Log/Event Data
+    \vskip 1cm
+    \textbf{Goal:} Summarize Per Customer Data Every 15 Minutes
+
+    \textbf{Problem:} Calculating 24 Hour (or longer) Percentiles from Rollups
+\end{frame}
 
 \end{document}
