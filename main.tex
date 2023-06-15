@@ -1,6 +1,6 @@
 \input{preamble.tex}
 
-\title{Observability Data Engineering}
+\title{Observability Data Engineering: The Search for $\pi$}
 \subtitle{A Story About Math, Four Golden Signals, and Business Intelligence}
 \institute{DevOps Observability Architect}
 \author{Jack Neely\\ jjneely@gmail.com}
@@ -283,7 +283,7 @@ Integrate and Build Ratio:
 \begin{frame}[standout]
     Health
 
-    Of Your Customers
+    {\small Of Your Customers}
 \end{frame}
 
 %% T-Digests
@@ -298,6 +298,30 @@ Integrate and Build Ratio:
     \textbf{Goal:} Summarize Per Customer Data Every 15 Minutes
 
     \textbf{Problem:} Calculating 24 Hour (or longer) Percentiles from Rollups
+\end{frame}
+
+\begin{frame}
+    \frametitle{T-Digest}
+
+    \begin{columns}
+        \begin{column}{0.4\textwidth}
+
+            $$ k(q) = \frac{\delta}{2\pi} \sin^{-1}(2q-1) $$
+            ~
+            \begin{description}
+                \item[$q$] Quantile ($0 - 1$ Inclusive)
+                \item[$k$]  Scale Factor
+                \item[$\delta$] Compression Constant
+                \item[$\pi$] Everybody run!  It's $\pi$ again!
+            \end{description}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \begin{figure}[!h]
+                \centering
+                \resizebox{\columnwidth}{!}{\input{tdigest.tex}}
+            \end{figure}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \end{document}

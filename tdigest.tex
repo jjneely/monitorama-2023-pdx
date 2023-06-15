@@ -1,0 +1,11 @@
+\begin{tikzpicture}[/pgf/declare function={f=(1/2*pi) * asin(2*x-1);}]
+\begin{axis}[
+    domain=0:1,
+    restrict y to domain=-5:5
+    samples=100,
+    xlabel=$q$,
+    ylabel=$k$,
+]
+\addplot [thick] gnuplot[samples=100] {f};
+\end{axis}
+\end{tikzpicture}
