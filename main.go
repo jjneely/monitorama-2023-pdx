@@ -162,7 +162,7 @@ func reportCustomerSummaries(cust CustomerReport, cDigests map[int64]*tdigest.TD
 
 	for _, c := range cust.Customers {
 		//log.Printf("Customer %d has mu == %.2f, p50 == %.2f, p99 == %.2f", c.CId, c.Mean, c.Median, c.P99)
-		e := 100.0 * (math.Abs(c.P99 - cDigests[c.CId].Quantile(.99))) / c.P99
+		e := 100.0 * (math.Abs(cDigests[c.CId].Quantile(.99) - c.P99)) / c.P99
 		fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n", 
 			c.CId, c.Mean, c.Median, c.P99,
 			cDigests[c.CId].Quantile(.5), cDigests[c.CId].Quantile(.99),
@@ -283,4 +283,5 @@ func main() {
 	log.Printf("All customer Mean  : %.2f", timeSeries10d[0].Mean)
 	log.Printf("All customer Median: %.2f", timeSeries10d[0].Median)
 	log.Printf("All customer p99   : %.2f", timeSeries10d[0].P99)
+	log.Printf("Bytes Required for each T-Digest serialization: %d", 4000)
 }

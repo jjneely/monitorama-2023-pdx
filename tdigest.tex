@@ -1,11 +1,14 @@
-\begin{tikzpicture}[/pgf/declare function={f=(1/2*pi) * asin(2*x-1);}]
+\begin{tikzpicture}[/pgf/declare function={f=(1/2*pi) * rad(asin(2*x-1));}]
 \begin{axis}[
     domain=0:1,
-    restrict y to domain=-5:5
-    samples=100,
+    samples=500,
     xlabel=$q$,
     ylabel=$k$,
+    grid style=dashed,
+    ymajorgrids=true,
+    xmajorgrids=true,
 ]
-\addplot [thick] gnuplot[samples=100] {f};
+%%\addplot [thick] gnuplot[samples=100] {f};
+\addplot [thick] {f};
 \end{axis}
 \end{tikzpicture}

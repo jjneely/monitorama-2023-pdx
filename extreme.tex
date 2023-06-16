@@ -1,0 +1,24 @@
+%% Extreme outlier plot
+\begin{tikzpicture}
+\begin{semilogxaxis}[
+    axis x line=center,% only show the bottom x axis
+    hide y axis,    
+    ymin=-1,ymax=1,
+    xmin=300,
+    width=15cm,
+    height=4cm,
+    mark size=3pt,
+]
+\addplot[fill=red,only marks] table {%
+544 0
+590 -0.1
+595 0.1
+595 0
+1135 0
+374909 0
+};
+\node[above] at (axis cs:3600,0.1) {Hours};
+\node[above] at (axis cs:600,0.1) {Minutes};
+\node[above] at (axis cs:86400,0) {Days};
+\end{semilogxaxis}
+\end{tikzpicture}
