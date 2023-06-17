@@ -25,6 +25,7 @@
 % Provide an easy command for full screen graphics
 \newcommand<>{\fullsizegraphic}[1]{
 {
+    \setbeamercolor{background canvas}{bg=black}
     \begin{frame}[plain]
         \begin{tikzpicture}[remember picture,overlay]
             \node[at=(current page.center)] {
@@ -70,7 +71,8 @@
 % Customization for code listings including font size, a background and margins
 \lstset{
     basicstyle=\tiny\ttfamily,
-    backgroundcolor=\color{normal text.bg!80!normal text.fg!50!normal text.bg},
+    %%backgroundcolor=\color{normal text.bg!80!normal text.fg!50!normal text.bg},
+    backgroundcolor=\color{black!5!white},
     frame=single,
     framerule=0pt,
 }

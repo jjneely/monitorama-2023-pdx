@@ -94,10 +94,29 @@
     \frametitle{Tracing Pipelines: KISS Method}
 
     Build a schema and pass meta information along the bus.
-    \begin{lstlisting}
+    \begin{figure}[h!]
+        \begin{tabular}{c}
+        \begin{lstlisting}[linewidth=5cm]
 {
-    foo=bar,
-    baz=sue
+  custId        : int,
+  discoveredTs  : Unix Epoch,
+
+  stage1_traceId: string,
+  stage1_status : int,
+  stage1_startTs: Unix Epoch,
+  stage1_stopTs : Unix Epoch,
+
+  stage2_traceId: string,
+  stage2_status : int,
+  stage2_startTs: Unix Epoch,
+  stage2_stopTs : Unix Epoch,
+
+  stage3_traceId: string,
+  stage3_status : int,
+  stage3_startTs: Unix Epoch,
+  stage3_stopTs : Unix Epoch
 }
-    \end{lstlisting}
+        \end{lstlisting}
+        \end{tabular}
+    \end{figure}
 \end{frame}
