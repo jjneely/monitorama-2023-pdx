@@ -1,6 +1,6 @@
 \input{preamble.tex}
 
-\title{Observability Data Engineering: The Search for $\pi$}
+\title{Observability Data Engineering}
 \subtitle{A Story About Math, Four Golden Signals, and Business Intelligence}
 \institute{DevOps Observability Architect}
 \author{Jack Neely\\ jjneely@gmail.com}
@@ -23,6 +23,7 @@
 
 \usepackage[most]{tcolorbox}
 \newtcolorbox{quotebox}{
+    lower separated=false,
     arc=0pt,boxrule=0pt,leftrule=2pt
 }
 
@@ -50,7 +51,7 @@
     \end{quotebox}
 
     Google SRE's \hcancel{Four} Five Golden Signals
-    \begin{description}
+    \begin{description}[labelwidth=\widthof{Saturation}]
         \item[Traffic] Counter of Units of Work
         \item[Errors] Counter of Units of Work with Exceptions
         \item[Latency] Timer of the distribution of latencies for each Unit of Work
@@ -99,40 +100,45 @@
 \begin{frame}
     \frametitle{Why Counters Work}
 
-    \begin{quote}
+    \begin{quotebox}
          Systems based in cumulative monotonic sums are naturally simpler, in
          terms of the cost of adding reliability. When collection fails
          intermittently, gaps in the data are naturally averaged from
-         cumulative measurements.  -- OpenTelemetry Data Model
-    \end{quote}
+         cumulative measurements.
+         \tcblower
+         \hfill --- OpenTelemetry Data Model Specification
+    \end{quotebox}
 
-    Most Accurate: Incremented in discrete whole numbers.  Never misses an
-    event.
-
-    Synchronization Primitive: Allows for multiple observers.
-
-    Low Overhead: Easy implementation.  No copying or recalling previous
-    values.
-
-    Fundamental: \textbf{Position!}
+    \begin{description}[labelwidth=\widthof{Synchronization}]
+        \item[Accurate] Incremented in discrete whole numbers.  Never misses an event.
+        \item[Synchronization] Primitive that allows for multiple observers.
+        \item[Low Overhead] Easy implementation.  No copying or recalling previous values.
+        \item[Fundamental] Position at time $t$.
+    \end{description}
 
     %% https://www.researchgate.net/publication/3849082_Monotonic_counters_A_new_mechanism_for_thread_synchronization
 \end{frame}
 
 \begin{frame}
-    \frametitle{Remembering Physics}
+    \frametitle{Remembering Physics: First and Second Derivatives}
     \begin{columns}
         \begin{column}{0.33\textwidth}
-            Position
-            \resizebox{\columnwidth}{!}{\input{position.tex}}
+            \begin{figure}[h!]
+                \resizebox{\columnwidth}{!}{\input{position.tex}}
+                \caption{Position: \scriptsize\tt{requests\_total}}
+            \end{figure}
         \end{column}
         \begin{column}{0.33\textwidth}
-            Velocity
-            \resizebox{\columnwidth}{!}{\input{velocity.tex}}
+            \begin{figure}[h!]
+                \resizebox{\columnwidth}{!}{\input{velocity.tex}}
+                \caption{Velocity: \scriptsize\tt{rate(requests\_total[5m])}}
+            \end{figure}
         \end{column}
         \begin{column}{0.33\textwidth}
-            Acceleration
-            \resizebox{\columnwidth}{!}{\input{acceleration.tex}}
+            \begin{figure}[h!]
+                \resizebox{\columnwidth}{!}{\input{acceleration.tex}}
+                \caption{Acceleration: \scriptsize\tt{deriv(requests:rate5m[5m])}}
+            \end{figure}
         \end{column}
     \end{columns}
     \note[item]{Spike detection}
@@ -175,7 +181,12 @@ Integrate and Build Ratio:
     \end{columns}
 \end{frame}
 
-\frame[standout]{Errors}
+\begin{frame}[standout]
+    Errors
+
+    \small
+    Your CPU Metrics are Wrong and I can Prove It
+\end{frame}
 
 %% Count Units of Work that fail or create an exception
 %% How you CPU metrics are wrong
@@ -201,7 +212,7 @@ Integrate and Build Ratio:
     $$ Scrape Interval > 2f $$
 \end{frame}
 \begin{frame}
-    \frametitle{Nyquist-Shannon Sampling Theorem}
+    \frametitle{Nyquist-Shannon Sampling Theorem: Aliasing}
     \begin{figure}[!h]
         \centering
         \input{nyquist-shannon2.tex}
@@ -209,7 +220,12 @@ Integrate and Build Ratio:
     $$ Scrape Interval > 2f $$
 \end{frame}
 
-\frame[standout]{Latency}
+\begin{frame}[standout]
+    Latency
+
+    \small
+    And Other Non-Normal Distributions
+\end{frame}
 
 %% Latency: Timers and Distributions -- Why averages are horrible and
 %% Anscombe's Quartet. Understanding Gamma Distributions.
@@ -259,7 +275,6 @@ Integrate and Build Ratio:
 \begin{frame}
     \frametitle{Standard Distribution Curve Formula}
 
-    %%$$f=(1/(sigma*sqrt(2*pi)))*e^(-((x-mu)^2)/(2*sigma^2)) $$
     {\huge $$ f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}} $$ }
 
     \vskip 1em
@@ -271,23 +286,12 @@ Integrate and Build Ratio:
     \end{description}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Latency Key Takeaways}
+\begin{frame}[standout]
+    Saturation
 
-    Question Averages
-    
-    Use Quantiles to Represent Latency Spread
-    \begin{itemize}
-        \item Median or $q(0.50)$
-        \item $q(0.90)$
-        \item $q(0.95)$
-        \item $q(0.99)$
-        \item $3\sigma$ or $q(0.997)$
-        \item Max or $q(1)$
-    \end{itemize}
+    \small
+    Are We Saturated Yet?
 \end{frame}
-
-\frame[standout]{Saturation}
 
 %% Saturation: Percentiles and Pipelines -- Visualizing percentiles of data,
 %% why we cannot combine percentiles, and the magic of histograms.
@@ -296,7 +300,8 @@ Integrate and Build Ratio:
 \begin{frame}[standout]
     Health
 
-    {\small Of Your Customers}
+    \small
+    Of Your Customers
 \end{frame}
 
 %% T-Digests
@@ -306,7 +311,7 @@ Integrate and Build Ratio:
 
     \textbf{Goal:} Per Customer Median and Percentiles
 
-    \textbf{Problem:} High Volume Log/Event Data
+    \textbf{Problem:} High Velocity Log/Event Data
     \vskip 1cm
     \textbf{Goal:} Summarize Per Customer Data Every 15 Minutes
 
@@ -349,6 +354,22 @@ Integrate and Build Ratio:
         \input{extreme.tex}
         \caption{Example of High Error Customer Distribution}
     \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Key Takeaways}
+
+    Question Averages
+
+    Use Quantiles to Represent Latency Spread
+    \begin{itemize}
+        \item Median or $q(0.50)$
+        \item $q(0.90)$
+        \item $q(0.95)$
+        \item $q(0.99)$
+        \item $3\sigma$ or $q(0.997)$
+        \item Max or $q(1)$
+    \end{itemize}
 \end{frame}
 
 \end{document}
