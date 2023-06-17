@@ -10,9 +10,21 @@
 \newcommand{\hcancel}[1]{%
     \tikz[baseline=(tocancel.base)]{%
         \node[inner sep=0pt,outer sep=0pt] (tocancel) {#1};
-        \draw[lightblue, very thick] (tocancel.south west) -- (tocancel.north east);
+        \draw[red, very thick] (tocancel.south west) -- (tocancel.north east);
     }%
 }%
+\newcommand{\icancel}[1]{%
+    \tikz[baseline=(tocancel.base)]{%
+        \node[inner sep=0pt,outer sep=0pt] (tocancel) {#1};
+        \draw[red, very thick] (tocancel.south west) -- (tocancel.north east);
+        \draw[red, very thick] (tocancel.south east) -- (tocancel.north west);
+    }%
+}%
+
+\usepackage[most]{tcolorbox}
+\newtcolorbox{quotebox}{
+    arc=0pt,boxrule=0pt,leftrule=2pt
+}
 
 \begin{document}
 
@@ -21,64 +33,65 @@
 
 %% In the Before Time Lightning Talk
 %% Consultant work
-\begin{frame}
-    \frametitle{Monitorama PDX 2019: How to know if something is ``up''}
-    \begin{tikzpicture}[remember picture,overlay]
-        %%\node[at=(current page.center)] {
-        %%    \includegraphics[width=10cm]{img/lightning-2019.png}
-        %%};
-    \end{tikzpicture}
-\end{frame}
+%%\begin{frame}
+%%    \frametitle{Monitorama PDX 2019: How to know if something is ``up''}
+%%    \begin{tikzpicture}[remember picture,overlay]
+%%        %%\node[at=(current page.center)] {
+%%        %%    \includegraphics[width=10cm]{img/lightning-2019.png}
+%%        %%};
+%%    \end{tikzpicture}
+%%\end{frame}
 
 \begin{frame}
     \frametitle{As a DevOps Observability Architect...}
 
+    \begin{quotebox}
     \emph{What do I monitor?}
+    \end{quotebox}
 
     Google SRE's \hcancel{Four} Five Golden Signals
     \begin{description}
-        \item[Health] Pods are Running and Healthy
         \item[Traffic] Counter of Units of Work
         \item[Errors] Counter of Units of Work with Exceptions
         \item[Latency] Timer of the distribution of latencies for each Unit of Work
         \item[Saturation] When Pods be scaled up or down
+        \item[Health] Is the thing up?  Does it respond to customers?
     \end{description}
-
-    Remember: \alert{There are FIVE lights!}
 \end{frame}
 
 \begin{frame}
     \frametitle{As a DevOps Observability Architect...}
 
-    The \hcancel{Four} Five Golden Signals is knowing before the customers do.
+    The \icancel{Four} Five Golden Signals is knowing before the customers do.
 
-    \pause
-    \begin{quote}
+    \begin{quotebox}
         \emph{We need to set alerts for these super special customers.}
-    \end{quote}
+    \end{quotebox}
 
     Well, if we set our Histograms correctly and record maximum values we will
     be able to tell when...
 
-    \pause
-    \begin{quote}
+    \begin{quotebox}
         \emph{When a customer calls we need to be able to verify the error
             they encountered.  We'll need a high cardinally solution.}
-    \end{quote}
+    \end{quotebox}
 
-    Umm...those aren't metrics.  How heavily are you sampling your traces?
+    Umm...those aren't metrics.  Where are your traces?
 
-    \pause
-    \begin{quote}
+    \begin{quotebox}
         \emph{Jack, we're an Enterprise!}
-    \end{quote}
+    \end{quotebox}
 \end{frame}
 
 \begin{frame}
     starship goes here
 \end{frame}
 
-\frame[standout]{Traffic}
+\begin{frame}[standout]
+    Traffic
+
+    \small{How to count things}
+\end{frame}
 
 %% Count Units of Work
 %% Why Counting monotonoically matters like a network device
