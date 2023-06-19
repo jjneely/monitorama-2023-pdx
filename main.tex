@@ -317,7 +317,7 @@ Integrate and Build Ratio:
 
     \vskip 0.5cm
     \centering\large
-    \{ $ts$: 2023-06-08T22:15:00, $custId$: 9, $count$: 4, $\mu$: 581, $q(.99)$: 595 \}
+    \{ $ts$: 2023-06-08T22:15:00, $custId$: 9, $N$: 4, $\mu$: 581, $q(.99)$: 595 \}
 
 \end{frame}
 
@@ -347,9 +347,7 @@ Integrate and Build Ratio:
 
 \begin{frame}
     \frametitle{Results 24 Hour $q(.99)$ Estimations from 15 Minute Rollups}
-    Overall $q(.99)$ had a 2.32\% Error 
-
-    90\% of Per Customer $q(.99)$ had $<$ 50\% Error
+    Results: 80/20 Rule.  
 
     \vskip 1em
     \begin{figure}[!h]
@@ -357,12 +355,18 @@ Integrate and Build Ratio:
         \input{extreme.tex}
         \caption{Example of High Error Customer Distribution}
     \end{figure}
+
+    Adjusted Hypothesis: Serialized T-Digests as 15 minute rollups will have better accuracy.
+    
+    Results: 95\% of Customer $q(.99)$ Very Accurate
 \end{frame}
 
 \begin{frame}[standout]
     \small
 
     Averages Lie
+
+    Use Smart Rollups
 
     There Are FIVE Golden Signals
 

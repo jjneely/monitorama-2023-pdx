@@ -2,17 +2,17 @@ package main
 
 import (
 	"bufio"
-	"math"
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/montanaflynn/stats"
 	"github.com/influxdata/tdigest"
+	"github.com/montanaflynn/stats"
 )
 
 type TTAA struct {
@@ -33,10 +33,11 @@ type CustomerSummary struct {
 type CustomerReport struct {
 	TimeStamp time.Time
 	Customers map[int64]CustomerSummary
-	Count int
-	Mean float64
-	Median float64
-	P99 float64
+	Digests   map[int64]*tdigest.TDigest
+	Count     int
+	Mean      float64
+	Median    float64
+	P99       float64
 }
 
 var (
@@ -148,6 +149,15 @@ func buildSummary(data []TTAA, CId int64) (c CustomerSummary) {
 	return
 }
 
+func buildDigest(data []TTAA, CId int64) *tdigest.TDigest {
+	t := tdigest.New()
+	for _, v := range filterDurations(data, CId) {
+		t.Add(float64(v), 1.0)
+	}
+
+	return t
+}
+
 // reportCustomerSummaries takes a map of unique Customer IDs each with one
 // CustomerSummary and logs it to screen and writes it to a CSV file.
 func reportCustomerSummaries(cust CustomerReport, cDigests map[int64]*tdigest.TDigest, filename string) {
@@ -162,19 +172,20 @@ func reportCustomerSummaries(cust CustomerReport, cDigests map[int64]*tdigest.TD
 
 	fd.WriteString("CId,Mean,Median,P99,TMedian,TP99,Error,Count\n")
 	e := 100.0 * (math.Abs(cust.P99 - cDigests[-1].Quantile(.99))) / cust.P99
-	fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n", 
+	fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
 		-1, cust.Mean, cust.Median, cust.P99,
 		cDigests[-1].Quantile(0.5), cDigests[-1].Quantile(0.99),
-	  	e, cDigests[-1].Count())
+		e, cDigests[-1].Count())
 
 	for _, c := range cust.Customers {
 		//log.Printf("Customer %d has mu == %.2f, p50 == %.2f, p99 == %.2f", c.CId, c.Mean, c.Median, c.P99)
 		e := 100.0 * (math.Abs(cDigests[c.CId].Quantile(.99) - c.P99)) / c.P99
-		fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n", 
+		fmt.Fprintf(fd, "%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
 			c.CId, c.Mean, c.Median, c.P99,
 			cDigests[c.CId].Quantile(.5), cDigests[c.CId].Quantile(.99),
 			e, cDigests[c.CId].Count())
 		if *debug == c.CId {
+			log.Printf("%d: %v", c.CId, cDigests[*debug])
 			log.Printf("%d: T-Digest Rollup p99 %.2f, Error %.2f", c.CId,
 				cDigests[c.CId].Quantile(.99), e)
 		}
@@ -183,14 +194,16 @@ func reportCustomerSummaries(cust CustomerReport, cDigests map[int64]*tdigest.TD
 
 func getCustomers(data []TTAA) (c CustomerReport) {
 	c.Customers = make(map[int64]CustomerSummary)
+	c.Digests = make(map[int64]*tdigest.TDigest)
 	for _, tta := range data {
 		if _, ok := c.Customers[tta.CId]; !ok {
 			c.Customers[tta.CId] = buildSummary(data, tta.CId)
+			c.Digests[tta.CId] = buildDigest(data, tta.CId)
 		}
 		c.Count++ // Keep count of total number of observations
 	}
 
-	return
+	return c
 }
 
 // partition returns a Unix Epoch time stamp adjusted to be an increment of
@@ -236,25 +249,39 @@ func buildTDigests(ts []CustomerReport) map[int64]*tdigest.TDigest {
 	var cDigests = make(map[int64]*tdigest.TDigest)
 	var count int
 
-	cDigests[-1] = tdigest.NewWithCompression(1000)
+	cDigests[-1] = tdigest.New()
 	for _, batch := range ts {
-		for _, c := range batch.Customers {
-			if _, ok := cDigests[c.CId]; !ok {
-				cDigests[c.CId] = tdigest.New()
+		for CId, c := range batch.Digests {
+			if _, ok := cDigests[CId]; !ok {
+				cDigests[CId] = tdigest.New()
 			}
 			count++
-			cDigests[c.CId].Add(c.Mean, float64(c.Count))
 
+			// Create the 24h TDigest from all the rollup TDigests
+			cDigests[CId].Merge(c)
 			// Build a TDigest for all customers with cID == -1
-			cDigests[-1].Add(c.Mean, float64(c.Count))
+			cDigests[-1].Merge(c)
+			if *debug == CId {
+				log.Printf("%d: %v", CId, c)
+			}
 		}
+		//for _, c := range batch.Customers {
+		//	if _, ok := cDigests[c.CId]; !ok {
+		//		cDigests[c.CId] = tdigest.New()
+		//	}
+		//	count++
+		//	cDigests[c.CId].Add(c.Mean, float64(c.Count))
+
+		//	// Build a TDigest for all customers with cID == -1
+		//	cDigests[-1].Add(c.Mean, float64(c.Count))
+		//}
 	}
 
 	// Now we have TDigests for each customer and all customers that
 	// represents the entire set of test data reconstructed from the 5m
 	// rollups of that data.
-	log.Printf("T-Digest Rollup: Ingestion %d centroids", count)
-	log.Printf("T-Digest Rollup: Found %d unique customers", len(cDigests) - 1)
+	log.Printf("T-Digest Rollup: %d merges", count)
+	log.Printf("T-Digest Rollup: Found %d unique customers", len(cDigests)-1)
 	log.Printf("T-Digest Rollup: All observations   : %v", cDigests[-1].Count())
 	//log.Printf("T-Digest: All customer Mean  : %.2f", cDigests[-1].TrimmedMean(0, 1))
 	log.Printf("T-Digest Rollup: All customer Median: %.2f", cDigests[-1].Quantile(0.5))
