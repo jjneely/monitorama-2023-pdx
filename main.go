@@ -39,11 +39,15 @@ type CustomerReport struct {
 	P99 float64
 }
 
+var (
+	debug = flag.Int64("debug", 0, "Customer ID to debug")
+)
+
 func loadData(f string) []TTAA {
 	var err error
 	ttaa := []TTAA{}
-	var newCustId int64 = 1
-	idMap := make(map[int64]int64)
+	//var newCustId int64 = 1
+	//idMap := make(map[int64]int64)
 
 	file, err := os.Open(f)
 	if err != nil {
@@ -85,13 +89,13 @@ func loadData(f string) []TTAA {
 			continue
 		}
 		// Remap IDs so they don't match any "real" data ever
-		if newId, ok := idMap[t.CId]; !ok {
-			idMap[t.CId] = newCustId
-			t.CId = newCustId
-			newCustId++
-		} else {
-			t.CId = newId
-		}
+		//if newId, ok := idMap[t.CId]; !ok {
+		//	idMap[t.CId] = newCustId
+		//	t.CId = newCustId
+		//	newCustId++
+		//} else {
+		//	t.CId = newId
+		//}
 
 		t.TimeStamp, err = time.Parse(time.RFC3339Nano, strings.Trim(columns[0], "\""))
 		if err != nil {
@@ -137,6 +141,9 @@ func buildSummary(data []TTAA, CId int64) (c CustomerSummary) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if *debug > 0 && c.CId == *debug {
+		log.Printf("%d: count: %d, mu: %.2f, p99: %.2f", *debug, c.Count, c.Mean, c.P99)
+	}
 
 	return
 }
@@ -167,6 +174,10 @@ func reportCustomerSummaries(cust CustomerReport, cDigests map[int64]*tdigest.TD
 			c.CId, c.Mean, c.Median, c.P99,
 			cDigests[c.CId].Quantile(.5), cDigests[c.CId].Quantile(.99),
 			e, cDigests[c.CId].Count())
+		if *debug == c.CId {
+			log.Printf("%d: T-Digest Rollup p99 %.2f, Error %.2f", c.CId,
+				cDigests[c.CId].Quantile(.99), e)
+		}
 	}
 }
 
