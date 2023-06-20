@@ -93,10 +93,16 @@
 \begin{frame}[fragile]
     \frametitle{Tracing Pipelines: KISS Method}
 
-    Build a schema and pass meta information along the bus.
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Build a schema and pass meta information along the bus.
+            \vskip 0.5cm
+            Feedback loops for your teams.
+        \end{column}
+        \begin{column}{0.5\textwidth}
     \begin{figure}[h!]
-        \begin{tabular}{c}
-        \begin{lstlisting}[linewidth=5cm]
+        %%\begin{tabular}{c}
+        \begin{lstlisting}[linewidth=4cm]
 {
   custId        : int,
   discoveredTs  : Unix Epoch,
@@ -117,6 +123,8 @@
   stage3_stopTs : Unix Epoch
 }
         \end{lstlisting}
-        \end{tabular}
+        %%\end{tabular}
     \end{figure}
+        \end{column}
+    \end{columns}
 \end{frame}

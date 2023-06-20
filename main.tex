@@ -89,7 +89,7 @@
 \begin{frame}[standout]
     Traffic
 
-    \small{How to count things}
+    \small{Why we count things}
 \end{frame}
 
 %% Count Units of Work
@@ -279,8 +279,8 @@ Integrate and Build Ratio:
     \begin{description}
         \item[$\sigma$] Standard Deviation
         \item[$\mu$] Mean
-        \item[$e$] The base of Natural Logarithm and is about $2.71828$
-        \item[$\pi$] Pi! About $3.14159$
+        \item[$e$] The base of the Natural Logarithm, about $2.71828$
+        \item[$\pi$] Pi!
     \end{description}
 \end{frame}
 
@@ -288,7 +288,7 @@ Integrate and Build Ratio:
     Saturation
 
     \small
-    Are We Saturated Yet?
+    Are You Saturated Yet?
 \end{frame}
 
 %% Saturation: Percentiles and Pipelines -- Visualizing percentiles of data,
@@ -313,11 +313,11 @@ Integrate and Build Ratio:
     \vskip 0.5cm
     \textbf{Goal:} Summarize Per Customer Data Every 15 Minutes
 
-    \textbf{Problem:} Calculating 24 Hour (or longer) Percentiles from Rollups
+    \textbf{Problem:} Calculating 7 - 30 Day Percentiles from Rollups
 
     \vskip 0.5cm
     \centering\large
-    \{ $ts$: 2023-06-08T22:15:00, $custId$: 9, $N$: 4, $\mu$: 581, $q(.99)$: 595 \}
+    \tt{\{ $ts$: 2023-06-08T22:15:00, $custId$: 9, $N$: 4, $\mu$: 581, $q(.99)$: 595 \}}
 
 \end{frame}
 
@@ -370,9 +370,7 @@ Integrate and Build Ratio:
 
     There Are FIVE Golden Signals
 
-    Use Quantiles to Understand Latency Spread
-
-    Quantiles Cannot Be Combined, But Can Be Estimated
+    Use Quantiles and Max to Understand Latency Spread
 
     Use the Scientific Method and Mathematically Model Applications
 \end{frame}
@@ -386,5 +384,16 @@ Integrate and Build Ratio:
     jjneely@gmail.com
 
     Podcast: operations.fm
+\end{frame}
+
+\appendix
+
+\begin{frame}
+    \frametitle{References}
+
+    \begin{itemize}
+        \item Enterprise D Image Credit: PARAMOUNT
+        \item T-Digests: \href{https://github.com/tdunning/t-digest}{https://github.com/tdunning/t-digest}
+    \end{itemize}
 \end{frame}
 \end{document}
