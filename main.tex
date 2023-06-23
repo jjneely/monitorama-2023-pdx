@@ -5,8 +5,10 @@
 \institute{DevOps Observability Architect}
 \author{Jack Neely\\ jjneely@gmail.com}
 
-\date{\today}
+%%\date{\today}
+\date{June 26, 2023}
 
+%%\renewcommand{\labelenumi}{\alpha{enumi}}
 \newcommand{\hcancel}[1]{%
     \tikz[baseline=(tocancel.base)]{%
         \node[inner sep=0pt,outer sep=0pt] (tocancel) {#1};
@@ -188,16 +190,15 @@ Integrate and Build Ratio:
 
 %% Count Units of Work that fail or create an exception
 %% How you CPU metrics are wrong
-
 \begin{frame}[fragile]
     \frametitle{Measuring CPU Usage Over Time}
 
     How do you measure CPU usage of a process?
-    \begin{enumerate}[label=\alph*.]
-        \item Jiffies
-        \item Percentages
-        \item Seconds a Process is in the Running State
-        \item All of the above
+    \begin{enumerate}
+        \item[a.] Jiffies
+        \item[b.] Percentages
+        \item[c.] Seconds a Process is in the Running State
+        \item[d.] All of the above
     \end{enumerate}
 \end{frame}
 
@@ -392,9 +393,12 @@ Integrate and Build Ratio:
     \frametitle{References}
 
     \begin{itemize}
-        \item Enterprise D Image Credit: PARAMOUNT
-        \item T-Digests: \href{https://github.com/tdunning/t-digest}{https://github.com/tdunning/t-digest}
-        \item Methods of Quantile Calculation: \href{https://en.wikipedia.org/wiki/Quantile}{https://en.wikipedia.org/wiki/Quantile}
+        \item Enterprise NC-1701-D Image Credit: Paramount
+        \item \href{https://sre.google/sre-book/monitoring-distributed-systems/}{\alert{Google SRE: Four Golden Signals}}
+        \item \href{https://math.dartmouth.edu/opencalc2/cole/lecture8.pdf}{\alert{Dartmouth: The First and Second Derivatives}}
+        \item \href{https://en.wikipedia.org/wiki/Nyquist\%E2\%80\%93Shannon_sampling_theorem}{\alert{Nyquist–Shannon sampling theorem}}
+        \item \href{https://github.com/tdunning/t-digest/blob/main/docs/t-digest-paper/histo.pdf}{\alert{Computing Extremely Accurate Quantiles Using t-Digests}}
+        \item \href{https://www.researchgate.net/publication/222105754_Sample_Quantiles_in_Statistical_Packages}{\alert{Sample Quantiles in Statistical Packages}}
     \end{itemize}
 \end{frame}
 \end{document}
