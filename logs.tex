@@ -1,0 +1,46 @@
+\begin{frame}[fragile]
+    \frametitle{Raw Pipeline Events per Customer}
+
+\begin{lstlisting}
+{"@timestamp": "2023-06-08T22:15:01.52Z", "cId": 10413, "startTs": 1686262500079, "duration": 564}
+{"@timestamp": "2023-06-08T22:15:01.52Z", "cId": 10413, "startTs": 1686262500079, "duration": 764}
+{"@timestamp": "2023-06-08T22:15:02.39Z", "cId": 40529, "startTs": 1686262500964, "duration": 522}
+{"@timestamp": "2023-06-08T22:15:02.39Z", "cId": 40529, "startTs": 1686262500964, "duration": 712}
+{"@timestamp": "2023-06-08T22:15:02.63Z", "cId": 10275, "startTs": 1686262501555, "duration": 652}
+{"@timestamp": "2023-06-08T22:15:06.31Z", "cId": 40379, "startTs": 1686262505979, "duration": 157}
+{"@timestamp": "2023-06-08T22:15:06.31Z", "cId": 40379, "startTs": 1686262505979, "duration": 242}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 539}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 539}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 539}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 629}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 637}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 637}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 732}
+{"@timestamp": "2023-06-08T22:15:06.44Z", "cId": 70033, "startTs": 1686262505370, "duration": 734}
+{"@timestamp": "2023-06-08T22:15:06.45Z", "cId": 40379, "startTs": 1686262505979, "duration": 158}
+\end{lstlisting}
+
+What's a few billion log events between friends?  Perhaps this data is kept
+for 24 to 48 hours and is rolled up into summaries kept for years.
+
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pipeline Summaries per Customer}
+
+    %%\tt{\{ $ts$: 2023-06-08T22:15:00, $custId$: 9, $N$: 4, $\mu$: 581, $q(.99)$: 595 \}}
+\begin{lstlisting}
+{"@timestamp": "2023-06-08T22:15:00Z", "cId": 10413, "n": 47794, "mu": 2396.42, "q50": 744.0, "q99": 3784.5} 
+{"@timestamp": "2023-06-08T22:15:00Z", "cId": 40529, "n": 3728, "mu": 826.01, "q50": 660.0, "q99": 5568.5} 
+{"@timestamp": "2023-06-08T22:15:00Z", "cId": 10275, "n": 15696, "mu": 2822.94, "q50": 663.0, "q99": 1724.5} 
+{"@timestamp": "2023-06-08T22:15:00Z", "cId": 40379, "n": 23377, "mu": 836.97, "q50": 651.0, "q99": 1511.0} 
+{"@timestamp": "2023-06-08T22:15:00Z", "cId": 70033, "n": 9927, "mu": 621.16, "q50": 542.0, "q99": 1073.0} 
+\end{lstlisting}
+
+15 minute summaries \textit{vastly} reduce the number of events and data storage
+required.
+
+Wait, how do we aggregate this to build 7 and 30 day reports?
+
+\end{frame}
+

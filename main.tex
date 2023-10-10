@@ -314,16 +314,18 @@ Integrate and Build Ratio:
     \vskip 0.5cm
     \textbf{Goal:} Summarize Per Customer Data Every 15 Minutes
 
-    \textbf{Problem:} Calculating 7 - 30 Day Percentiles from Rollups
+    \textbf{Problem:} Calculating 7 and 30 Day Percentiles from Summaries
 
     \vskip 0.5cm
-    \centering\large
-    \tt{\{ $ts$: 2023-06-08T22:15:00, $custId$: 9, $N$: 4, $\mu$: 581, $q(.99)$: 595 \}}
-
+    \centering\Large
+    Requirements for both \textbf{Robust} and \textbf{Aggregatable} data.
+    %%\tt{\{ $ts$: 2023-06-08T22:15:00, $custId$: 9, $N$: 4, $\mu$: 581, $q(.99)$: 595 \}}
 \end{frame}
 
+\input{logs.tex}
+
 \begin{frame}
-    \frametitle{T-Digest}
+    \frametitle{The T-Digest Algorithm}
 
     \begin{columns}
         \begin{column}{0.4\textwidth}
