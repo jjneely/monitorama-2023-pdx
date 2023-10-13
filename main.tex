@@ -1,12 +1,14 @@
 \input{preamble.tex}
 
 \title{Observability Data Engineering}
-\subtitle{A Story About Math, Four Golden Signals, and Business Intelligence}
+\subtitle{A Story About Math, Four Golden Signals, and Business Intelligence\\
+~~~~or\\
+Finding $\pi$ in Observability}
 \institute{DevOps Observability Architect}
 \author{Jack Neely\\ jjneely@gmail.com}
 
 %%\date{\today}
-\date{June 26, 2023}
+\date{October 16, 2023}
 
 %%\renewcommand{\labelenumi}{\alpha{enumi}}
 \newcommand{\hcancel}[1]{%
@@ -33,6 +35,28 @@
 
 %% Introduction, Title
 \maketitle
+
+\begin{frame}
+    \frametitle{Goals}
+
+Anti-Goals
+    \begin{itemize}
+        \item Define ``Observability''
+        \item Argue ``Monitoring'' vs ``Observability''
+        \item Sell You Things
+    \end{itemize}
+
+Actual Goals
+    \begin{itemize}
+        \item Show the Rabbit Hole
+        \item Be Excited about Math and Engineering
+        \item Share Techniques I Use Everyday
+        \item Observability in the Enterprise
+    \end{itemize}
+
+    Good Observability is the gateway drug to Data Science.  Artificial
+    Intelligence is just Data Science on steroids.
+\end{frame}
 
 %% In the Before Time Lightning Talk
 %% Consultant work
@@ -350,18 +374,24 @@ Integrate and Build Ratio:
 
 \begin{frame}
     \frametitle{Results 24 Hour $q(.99)$ Estimations from 15 Minute Rollups}
-    Results: 80\% Ok, 20\% Sucked  
+    Results: 80\% Ok, 20\% Sucked
 
+    XXX: How bad did they suck?
+
+    Adjusted Hypothesis: Serialized T-Digests as 15 minute rollups will have better accuracy.
+\end{frame}
+
+\input{logs2.tex}
+
+\begin{frame}
+    \frametitle{Experiment 2 Results: 24 Hour $q(.99)$ Estimations from 15 Minute Rollups}
+    Results: 95\% of Customer $q(.99)$ Very Accurate
     \vskip 1em
     \begin{figure}[!h]
         \centering
         \input{extreme.tex}
         \caption{Example of High Error Customer Distribution}
     \end{figure}
-
-    Adjusted Hypothesis: Serialized T-Digests as 15 minute rollups will have better accuracy.
-    
-    Results: 95\% of Customer $q(.99)$ Very Accurate
 \end{frame}
 
 \begin{frame}[standout]
