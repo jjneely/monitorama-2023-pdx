@@ -41,8 +41,7 @@ Finding $\pi$ in Observability}
 
 Anti-Goals
     \begin{itemize}
-        \item Define ``Observability''
-        \item Argue ``Monitoring'' vs ``Observability''
+        \item Define ``Observability'' or Argue ``Monitoring'' vs ``Observability''
         \item Sell You Things
     \end{itemize}
 
@@ -52,6 +51,7 @@ Actual Goals
         \item Be Excited about Math and Engineering
         \item Share Techniques I Use Everyday
         \item Observability in the Enterprise
+        \item Using the Scientific Method
     \end{itemize}
 
     Good Observability is the gateway drug to Data Science.  Artificial
@@ -373,20 +373,46 @@ Integrate and Build Ratio:
 \end{frame}
 
 \begin{frame}
-    \frametitle{Results 24 Hour $q(.99)$ Estimations from 15 Minute Rollups}
-    Results: 80\% Ok, 20\% Sucked
+    \frametitle{Results 24 Hour $q(.99)$ T-Digest Estimations from 15 Minute Rollups}
+    Raw data contained 1,730,745 samples and 913 unique customer IDs.
 
-    XXX: How bad did they suck?
+    \input{final-results-1.tex}
+\end{frame}
 
-    Adjusted Hypothesis: Serialized T-Digests as 15 minute rollups will have better accuracy.
+\begin{frame}
+    \frametitle{Using the Scientific Method}
+    \begin{center}
+        \textbf{Adjust the Hypothesis} 
+    \end{center}
+    \vskip 1cm
+    \begin{block}{Hypothesis}
+    Using serialized T-Digests as 15 minute rollups will have better accuracy.
+    \end{block}
 \end{frame}
 
 \input{logs2.tex}
 
 \begin{frame}
-    \frametitle{Experiment 2 Results: 24 Hour $q(.99)$ Estimations from 15 Minute Rollups}
-    Results: 95\% of Customer $q(.99)$ Very Accurate
-    \vskip 1em
+    \frametitle{Results 24 Hour $q(.99)$ T-Digest Estimations from 15 Minute T-Digests}
+    99\% of results have an error of less than 100\%.
+\begin{tikzpicture}[]
+\begin{axis}[
+    width=13cm,
+    height=7cm,
+    axis lines=middle,
+    ylabel=Error (1 is 100 Percent),
+    xlabel=Quantile,
+    domain=0:1,
+    ylabel near ticks,
+    xlabel near ticks,
+]
+    \addplot table[x index=0,y index=4,col sep=comma]{errors.csv};
+\end{axis}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Experiment 2 Results: Extreme Error Cases}
     \begin{figure}[!h]
         \centering
         \input{extreme.tex}

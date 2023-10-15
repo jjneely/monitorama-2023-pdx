@@ -6,7 +6,7 @@
     ymin=-1,ymax=1,
     xmin=300,
     width=15cm,
-    height=4cm,
+    height=6cm,
     mark size=3pt,
 ]
 \addplot[fill=red,only marks] table {%
@@ -17,8 +17,14 @@
 1135 0
 374909 0
 };
+\addplot[fill=black, only marks] table {%
+188022 0.5
+374909 -0.5
+};
 \node[above] at (axis cs:3600,0.1) {Hours};
 \node[above] at (axis cs:600,0.1) {Minutes};
 \node[above] at (axis cs:86400,0) {Days};
+\node[left] at (axis cs:188022,0.5) {Real Value};
+\node[left] at (axis cs:374909,-0.5) {Estimated Value};
 \end{semilogxaxis}
 \end{tikzpicture}

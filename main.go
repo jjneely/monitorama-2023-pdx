@@ -186,7 +186,7 @@ func reportCustomerSummaries(cust CustomerReport, cDigests map[int64]*tdigest.TD
 			e, cDigests[c.CId].Count())
 		if *debug == c.CId {
 			log.Printf("%d: %v", c.CId, cDigests[*debug])
-			log.Printf("%d: T-Digest Rollup p99 %.2f, Error %.2f", c.CId,
+			log.Printf("%d: T-Digest Rollup p99 %.8f, Error %.2f", c.CId,
 				cDigests[c.CId].Quantile(.99), e)
 		}
 	}

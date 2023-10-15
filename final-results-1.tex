@@ -1,0 +1,15 @@
+\begin{tikzpicture}[]
+\begin{axis}[
+    width=13cm,
+    height=7cm,
+    axis lines=middle,
+    ylabel=Error (1 is 100 Percent),
+    xlabel=Quantile,
+    domain=0:1,
+    ylabel near ticks,
+    xlabel near ticks,
+]
+    \addplot table[x index=0,y index=3,col sep=comma]{errors.csv};
+    %%\addplot table[x index=0,y index=4,col sep=comma]{errors.csv};
+\end{axis}
+\end{tikzpicture}
